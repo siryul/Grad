@@ -1,0 +1,6 @@
+data_path:
+  cifar10: /Volumes/T7/data/cifar10
+  cifar100: /Volumes/T7/data/cifar100
+  ham10000:
+    train: /Volumes/T7/data/HAM10000/train
+    test: /Volumes/T7/data/HAM10000/test
