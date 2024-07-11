@@ -123,7 +123,10 @@ class Trainer:
         # calculate self defination loss
         # with torch.no_grad():
         outputs1 = self.classifier1(self.model(images1))
-        loss1 = self.criterion(outputs1, labels1)
+        if self.config['criterion'] == 'DFL':
+          loss1 = self.criterion(outputs1, labels1, epoch, self.config['epochs'])
+        else:
+          loss1 = self.criterion(outputs1, labels1)
 
         # print(f'loss1: {loss1}, loss2: {loss2}')
         self.optimizer.zero_grad()

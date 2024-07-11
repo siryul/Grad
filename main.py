@@ -55,7 +55,7 @@ def main():
     raise ValueError('Unsupported dataset: {}'.format(config['dataset']))
 
   if config['criterion'] == 'CE':
-    criterion = torch.optim.CrossEntropyLoss()
+    criterion = torch.nn.CrossEntropyLoss()
   elif config['criterion'] == 'FL':
     criterion = FocalLoss()
   elif config['criterion'] == 'DFL':
