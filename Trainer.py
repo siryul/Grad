@@ -13,6 +13,9 @@ from utils.AccMeter import AccMeter
 from utils.AverageMeter import AverageMeter
 from utils.ProgressMeter import ProgressMeter
 from utils.metric import accuracy
+from math import nan
+
+not_change_limit = 10 # end the program if the best accuracy not changed with this times
 
 
 class Trainer:
@@ -133,6 +136,9 @@ class Trainer:
         loss = loss1 + loss2
         loss.backward()
         self.optimizer.step()
+
+        if loss == nan:
+          break
 
         # calculate accuracy
         acc1, acc5 = accuracy(outputs1, labels1, topk=(1, 5))
