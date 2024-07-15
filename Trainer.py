@@ -13,7 +13,7 @@ from utils.AccMeter import AccMeter
 from utils.AverageMeter import AverageMeter
 from utils.ProgressMeter import ProgressMeter
 from utils.metric import accuracy
-from math import nan
+from math import isnan, nan
 
 not_change_limit = 10 # end the program if the best accuracy not changed with this times
 
@@ -137,7 +137,7 @@ class Trainer:
         loss.backward()
         self.optimizer.step()
 
-        if loss == nan:
+        if torch.isnan(loss):
           break
 
         # calculate accuracy

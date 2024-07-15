@@ -6,7 +6,7 @@ imb_factor: 0.1
 feat_size: 64
 
 batch_size: 128
-lr: 0.1
+lr: 0.01
 momentum: 0.9
 weight_decay: 0.0001
 epochs: 200
