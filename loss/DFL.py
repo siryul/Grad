@@ -15,7 +15,9 @@ class DFL(nn.Module):
               total_epoch: int) -> torch.Tensor:
     ce_loss = F.cross_entropy(input, target, reduction='none')
     pt = torch.exp(-ce_loss)
-    dfl = ce_loss + self.alpha * (1 - pt)**(self.gamma * current_epoch / total_epoch) * ce_loss
+    progress = current_epoch / total_epoch
+    # dfl = ce_loss + self.alpha * (1 - pt)**(self.gamma * current_epoch / total_epoch) * ce_loss
+    dfl = (1-progress) * ce_loss + progress * (1 - pt)**(self.gamma) * ce_loss
     if self.reduction == 'mean':
       return dfl.mean()
     elif self.reduction == 'sum':
