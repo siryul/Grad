@@ -1,5 +1,6 @@
 from collections import defaultdict
 from genericpath import exists
+import math
 import shutil
 import time
 import numpy as np
@@ -59,6 +60,7 @@ class Trainer:
     self.model.train()
     self.classifier1.train()
     for epoch in range(self.config['epochs']):
+      adjust_learning_rate(self.optimizer, epoch, self.config)
       training_data_num = len(self.train_loader.dataset)
       end_steps = int(training_data_num / self.config['batch_size'])
 
@@ -229,12 +231,54 @@ def is_best(acc):
 
 
 def save_checkpoints(state, is_best, config):
+  filename_prefix = f'{config["dataset"]}_{config["backbone"]}_{config["imb_factor"]}'
   if not os.path.exists(config['ckps']):
     os.makedirs(config['ckps'])
-  file_name = config['ckps'] + '/current.pth.tar'
+  file_name = config['ckps'] + f'/current_{filename_prefix}.pth.tar'
   torch.save(state, file_name)
   if is_best:
-    shutil.copyfile(file_name, config['ckps'] + '/model_best.pth.tar')
+    shutil.copyfile(file_name, config['ckps'] + f'/model_best_{filename_prefix}.pth.tar')
+
+
+def resume_checkpoints(config, model, classifier1, classifier2):
+  filename_prefix = f'{config["dataset"]}_{config["backbone"]}_{config["imb_factor"]}'
+  file_name = config['ckps'] + f'/current_{filename_prefix}.pth.tar'
+  if os.path.exists(file_name):
+    print(f'Loading checkpoint from {file_name}')
+    checkpoint = torch.load(file_name)
+    start_epoch = checkpoint['epoch']
+    global best_acc
+    best_acc = checkpoint['acc1']
+    model.load_state_dict(checkpoint['state_dict'])
+    classifier1.load_state_dict(checkpoint['classifier1'])
+    classifier2.load_state_dict(checkpoint['classifier2'])
+    print(f'Loaded checkpoint from {file_name}')
+  else:
+    print(f'No checkpoint found at {file_name}')
+    start_epoch = 0
+  return start_epoch
+
+
+def adjust_learning_rate(optimizer, epoch, config):
+  """Sets the learning rate"""
+  if config.cos:
+    lr_min = 0
+    lr_max = config['lr']
+    lr = lr_min + 0.5 * (lr_max-lr_min) * (1 +
+                                           math.cos(epoch / config['num_epochs'] * 3.1415926535))
+  else:
+    epoch = epoch + 1
+    if epoch <= 5:
+      lr = config['lr'] * epoch / 5
+    elif epoch > 180:
+      lr = config['lr'] * 0.01
+    elif epoch > 160:
+      lr = config['lr'] * 0.1
+    else:
+      lr = config['lr']
+
+  for param_group in optimizer.param_groups:
+    param_group['lr'] = lr
 
 
 from pytorch_grad_cam import GradCAM
