@@ -20,3 +20,4 @@ log_dir: 'logs/cifar10_lt_01'
 num_workers: 4
 
 ckps: './ckps/cifar10_lt_01'
+cos: False
