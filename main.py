@@ -4,7 +4,7 @@ import os
 import torch
 import yaml
 
-from loss.DFL import DFL
+from loss.DFL import DFL, DFLV2
 from loss.focal_loss import FocalLoss
 from models import resnet_cifar
 from Trainer import Trainer
@@ -60,6 +60,8 @@ def main():
     criterion = FocalLoss()
   elif config['criterion'] == 'DFL':
     criterion = DFL()
+  elif config['criterion'] == 'DFLV2':
+    criterion = DFLV2()
   else:
     raise ValueError('Unsupported criterion: {}'.format(config['criterion']))
 

@@ -261,7 +261,7 @@ def resume_checkpoints(config, model, classifier1, classifier2):
 
 def adjust_learning_rate(optimizer, epoch, config):
   """Sets the learning rate"""
-  if config.cos:
+  if config['cos']:
     lr_min = 0
     lr_max = config['lr']
     lr = lr_min + 0.5 * (lr_max-lr_min) * (1 +
