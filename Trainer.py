@@ -60,7 +60,7 @@ class Trainer:
     self.model.train()
     self.classifier1.train()
     for epoch in range(self.config['epochs']):
-      adjust_learning_rate(self.optimizer, epoch, self.config)
+      # adjust_learning_rate(self.optimizer, epoch, self.config)
       training_data_num = len(self.train_loader.dataset)
       end_steps = int(training_data_num / self.config['batch_size'])
 
