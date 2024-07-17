@@ -133,7 +133,7 @@ class Trainer:
         else:
           loss1 = self.criterion(outputs1, labels1)
 
-        print(f'\tloss1: {loss1}, loss2: {loss2}')
+        # print(f'\tloss1: {loss1}, loss2: {loss2}')
         self.optimizer.zero_grad()
         loss = loss1 + loss2
         loss.backward()
