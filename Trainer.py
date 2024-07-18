@@ -260,8 +260,7 @@ def adjust_learning_rate(optimizer, epoch, config):
   if config['cos']:
     lr_min = 0
     lr_max = config['lr']
-    lr = lr_min + 0.5 * (lr_max-lr_min) * (1 +
-                                           math.cos(epoch / config['num_epochs'] * 3.1415926535))
+    lr = lr_min + 0.5 * (lr_max-lr_min) * (1 + math.cos(epoch / config['epochs'] * 3.1415926535))
   else:
     epoch = epoch + 1
     if epoch <= 5:
