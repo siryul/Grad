@@ -1,5 +1,5 @@
-dataset: 'cifar10'
-num_classes: 10
+dataset: 'cifar100'
+num_classes: 100
 backbone: 'resnet32_fe'
 
 imb_factor: 0.1
@@ -16,8 +16,8 @@ bank_size: 128
 start_aug: 0
 
 
-log_dir: 'logs/cifar10_lt_01'
+log_dir: 'logs/cifar100_lt_01'
 num_workers: 4
 
-ckps: './ckps/cifar10_lt_01'
+ckps: './ckps/cifar100_lt_01'
 cos: True

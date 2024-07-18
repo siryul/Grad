@@ -2,7 +2,7 @@ dataset: 'cifar10'
 num_classes: 10
 backbone: 'resnet32_fe'
 
-imb_factor: 0.1
+imb_factor: 0.02
 feat_size: 64
 
 batch_size: 128
@@ -16,8 +16,8 @@ bank_size: 128
 start_aug: 0
 
 
-log_dir: 'logs/cifar10_lt_01'
+log_dir: 'logs/cifar10_lt_002'
 num_workers: 4
 
-ckps: './ckps/cifar10_lt_01'
+ckps: './ckps/cifar10_lt_002'
 cos: True
