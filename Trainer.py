@@ -1,20 +1,16 @@
 from collections import defaultdict
-from genericpath import exists
 import math
 import shutil
 import time
 import numpy as np
-from sklearn.base import is_classifier
 import torch
 import torch.nn.functional as F
-import matplotlib.pyplot as plt
 import os
 
 from utils.AccMeter import AccMeter
 from utils.AverageMeter import AverageMeter
 from utils.ProgressMeter import ProgressMeter
 from utils.metric import accuracy
-from math import isnan, nan
 
 not_change_limit = 10 # end the program if the best accuracy not changed with this times
 
@@ -60,7 +56,7 @@ class Trainer:
     self.model.train()
     self.classifier1.train()
     for epoch in range(self.config['epochs']):
-      # adjust_learning_rate(self.optimizer, epoch, self.config)
+      adjust_learning_rate(self.optimizer, epoch, self.config)
       training_data_num = len(self.train_loader.dataset)
       end_steps = int(training_data_num / self.config['batch_size'])
 
@@ -140,7 +136,7 @@ class Trainer:
         self.optimizer.step()
 
         if torch.isnan(loss):
-          break
+          raise ValueError("Loss is NaN")
 
         # calculate accuracy
         acc1, acc5 = accuracy(outputs1, labels1, topk=(1, 5))
@@ -282,7 +278,6 @@ def adjust_learning_rate(optimizer, epoch, config):
 
 
 from pytorch_grad_cam import GradCAM
-from pytorch_grad_cam.utils.image import show_cam_on_image
 from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 
 
