@@ -1,6 +1,8 @@
 import argparse
 import os
+import random
 
+import numpy as np
 import torch
 import yaml
 
@@ -29,8 +31,22 @@ def main():
   config = parse_args()
   print(config)
 
+  # set seed
+  seed = 0
+  torch.manual_seed(seed)
+  random.seed(seed)
+  np.random.seed(seed)
+  torch.cuda.manual_seed(seed)
+  torch.cuda.manual_seed_all(seed)
+
   # train model
   if config['dataset'] == 'cifar10' or config['dataset'] == 'cifar100':
+    model = getattr(resnet_cifar, config['backbone'])()
+    classifier1 = getattr(resnet_cifar, 'Classifier')(feat_in=config['feat_size'],
+                                                      num_classes=config['num_classes'])
+    classifier2 = getattr(resnet_cifar, 'Classifier')(feat_in=config['feat_size'],
+                                                      num_classes=config['num_classes'])
+  elif config['dataset'] == 'ham10000':
     model = getattr(resnet_cifar, config['backbone'])()
     classifier1 = getattr(resnet_cifar, 'Classifier')(feat_in=config['feat_size'],
                                                       num_classes=config['num_classes'])
@@ -51,6 +67,9 @@ def main():
                                                             imb_factor=config['imb_factor'],
                                                             batch_size=config['batch_size'],
                                                             num_workers=config['num_workers'])
+  elif config['dataset'] == 'ham10000':
+    print('ham10000', config['dataset_path'])
+    # TODO
   else:
     raise ValueError('Unsupported dataset: {}'.format(config['dataset']))
 

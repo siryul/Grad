@@ -2,11 +2,13 @@ from collections import defaultdict
 import math
 import shutil
 import time
+from matplotlib import pyplot as plt
 import numpy as np
 import torch
 import torch.nn.functional as F
 import os
 
+from imgtest.show_mix import show_mix
 from utils.AccMeter import AccMeter
 from utils.AverageMeter import AverageMeter
 from utils.ProgressMeter import ProgressMeter
@@ -114,6 +116,9 @@ class Trainer:
 
           # plt.imshow(denormalize(images2[0].cpu().squeeze()).permute(1, 2, 0).numpy())
           # plt.show()
+          # return
+          # show_mix(images2)
+          # return
 
           feat2 = self.model(images2)
           outputs2 = self.classifier2(feat2)

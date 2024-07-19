@@ -1,0 +1,22 @@
+dataset: 'ham10000'
+num_classes: 7
+backbone: 'resnet32_fe'
+
+feat_size: 64
+
+batch_size: 128
+lr: 0.01
+momentum: 0.9
+weight_decay: 0.0001
+epochs: 200
+
+fit_threshold: 0.8
+bank_size: 128
+start_aug: 0
+
+
+log_dir: 'logs/ham10000'
+num_workers: 4
+
+ckps: './ckps/ham10000'
+cos: True
